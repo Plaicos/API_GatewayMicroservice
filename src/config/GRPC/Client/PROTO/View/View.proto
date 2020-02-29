@@ -1,0 +1,43 @@
+syntax = "proto3";
+package ViewPackage;
+
+service View {
+    rpc get_template (getTemplate) returns (Template);
+} 
+
+message getTemplate {
+    selector selector = 1;
+    string params = 2;
+    credential credential = 3;
+}
+
+message selector {
+    string lib = 1;
+    string subject = 2;
+    string name = 3;
+}
+
+message Template {
+    string html = 1;
+}
+
+message responseStatus {
+    string status = 1;
+}
+
+message scope {
+    bool read = 1;
+    bool write = 2;
+    third_party_scope third_party = 3;
+}
+
+message third_party_scope {
+    bool read = 1;
+    bool write = 2;
+}
+
+message credential {
+    string user = 1;
+    int32 level = 2;
+    scope scope = 3;
+}

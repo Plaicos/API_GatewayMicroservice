@@ -1,0 +1,7 @@
+var fs = require("fs")
+var file = fs.readFileSync("./foo.js")
+file = file.toJSON()
+console.log({ file })
+let newFile = Buffer.from(file.data)
+newFile = newFile.toString()
+console.log({ newFile })
