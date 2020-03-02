@@ -28,6 +28,7 @@ module.exports = class WebSocketsController {
         var socket_routes = require("../../../config/SocketIO/routes/Socket/socket_routes")
         return async function (reason) {
             try {
+                await self.UseCases.delete_connection(socket.id)
                 console.log("socket disconnected", socket.id)
                 return
             }
@@ -77,6 +78,7 @@ module.exports = class WebSocketsController {
                 let credential = await self.UseCases.authenticate_token(token)
                 socket.credential = credential
                 socket.emit("logged in")
+                console.log({ credential })
                 await self.UseCases.store_connection(credential.user, socket.id)
                 return
             }

@@ -15,7 +15,7 @@ module.exports = class Connection {
         }
 
         let { user, id } = data
-
+        console.log({ data })
         try {
             Connection.user = await entities.user({ user, SCI })
             Connection.id = await entities.id(id)
@@ -29,6 +29,7 @@ module.exports = class Connection {
 
     methods(Connection) {
         Connection.__proto__.register = this.register()
+        Connection.__proto__.delete = this.delete()
         return Connection;
     }
 
@@ -69,10 +70,27 @@ module.exports = class Connection {
 
         try {
             let Connection = await DAO.get_connection(id)
+            Connection = this.methods(Connection)
             return Connection;
         }
         catch (erro) {
             throw (erro)
+        }
+    }
+
+    delete() {
+        var self = this
+        return async function () {
+            let { DAO } = self
+            let id = this.id
+
+            try {
+                await DAO.delete_connection(id)
+                return
+            }
+            catch (erro) {
+                throw (erro)
+            }
         }
     }
 }

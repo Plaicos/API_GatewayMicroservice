@@ -74,14 +74,13 @@ module.exports = class UseCases {
         let { entities, DAO, SCI } = this
 
         try {
-            let Connention = new entities.Connection({ data: { user, id }, SCI, DAO })
             let ConnectionExists = await DAO.check_connection(id)
             console.log({ ConnectionExists })
             if (ConnectionExists) {
                 return "Connection already exists";
             }
             else {
-                Connention = await Connention.build()
+                let Connention = await new entities.Connection({ data: { user, id }, SCI, DAO }).build()
                 await Connention.register()
             }
 
@@ -128,6 +127,18 @@ module.exports = class UseCases {
         try {
             await WSI.notify(connection, notification)
             return
+        }
+        catch (erro) {
+            throw (erro)
+        }
+    }
+
+    async delete_connection(id) {
+        let { DAO, entities } = this
+
+        try {
+            let Connection = await new entities.Connection({ data: { id: id }, DAO, SCI }).load()
+            return await Connection.delete()
         }
         catch (erro) {
             throw (erro)

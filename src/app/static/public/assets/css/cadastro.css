@@ -1,0 +1,73 @@
+
+#logo {
+        width:50%;
+        height:50%;
+}
+
+.panel-heading{
+    font-size:150%;
+}
+.help-block{
+    text-align: right;
+}
+
+.panel{
+padding: 30px;
+}
+
+.btnSubmit4 a{
+    margin-bottom: 10%;
+    background-color: #B1D5D2;
+    padding: 10px 20px;
+    border: none;
+    color: #7a6960;
+    font-weight: 900;
+    font-size: 25px;
+    border-radius: 30px;
+}
+
+.btnSubmit4 a:hover{
+    color: #7a6960;
+    margin-bottom: 10%;
+    background-color: #CC5FB0;
+    text-decoration: none;
+}
+
+.titulo{
+    color: #3CBFBA;
+}
+
+  input[type='file'] {
+    display: none
+  }
+  
+  .input-wrapper label {
+    background-color: #B1D5D2;
+    border-radius: 5px;
+    color: #fff;
+    margin: 10px;
+    padding: 6px 20px
+  }
+  
+  .input-wrapper label:hover {
+    background-color: #CC5FB0
+  }
+
+  .btnSubmitcad a{
+    margin-left: 80%;
+    margin-top: 35px;
+    background-color: #CC5FB0;
+    padding: 5px 50px;
+    border: none;
+    color: #fff;
+    font-weight: 900;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.btnSubmitcad a:hover{
+    color: #fff;
+    margin-top: 35px;
+    background-color: #B1D5D2;
+    text-decoration: none;
+}

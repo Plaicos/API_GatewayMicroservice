@@ -35,7 +35,7 @@ module.exports = class WebSocketsInterface {
 
             try {
                 let socket = io.sockets.connected[connection_id]
-                console.log(Object.keys(io.sockets.connected))
+                //console.log(Object.keys(io.sockets.connected))
                 //socket.emit("notification", notification)
                 return
             }
