@@ -3,118 +3,26 @@ module.exports = class DAO {
         this.db = db
         this.ObjectId = ObjectId
         this.collections = {
-            posts: db.collection("post"),
-            post_types: db.collection("post_types")
+            connections: db.collection("connections")
         }
     }
 
-    get_post(id) {
-        return new Promise((resolve, reject) => {
-            let { ObjectId } = this
-            this.collections.posts.find({ _id: ObjectId(id) }).toArray((erro, result) => {
-                if (erro) {
-                    reject(erro)
-                    return
-                }
-                if (result.length > 0) {
-                    resolve(result[0])
-                }
-                else {
-                    reject("That ID does not refer not any post")
-                }
-            })
-        });
+    async register_connection(connection) {
+        try {
+            let insertionLog = await this.collections.connections.insertOne(connection)
+            return insertionLog;
+        }
+        catch (erro) {
+            throw (erro)
+        }
     }
 
-    registerPost(post) {
+    check_connection(id) {
         return new Promise(async (resolve, reject) => {
             try {
-                let insertionLog = await this.collections.posts.insertOne(post)
-                //console.log({ insertionLog })
-                resolve(insertionLog)
-            }
-            catch (erro) {
-                reject(erro)
-            }
-        });
-    }
-
-    delete_post(id) {
-        return new Promise(async (resolve, reject) => {
-            let { ObjectId } = this
-
-            try {
-                await this.collections.posts.deleteOne({ _id: ObjectId(id) })
-                resolve()
-            }
-            catch (erro) {
-                reject(erro)
-            }
-        });
-    }
-
-    searchPosts(filters) {
-        return new Promise((resolve, reject) => {
-
-            //parsing data
-            let pagination = {
-                limit: filters.limit,
-                offset: filters.offset
-            }
-            delete filters.limit
-            delete filters.offset
-
-            if (filters.location) {
-                filters.location = { $elemMatch: filters.location }
-            }
-
-            if (filters.key_words) {
-                let key_words = filters.key_words
-                let keys = Object.keys(key_words)
-                delete filters.key_words
-        
-                for (let key of keys) {
-                    filters[`key_words.${key}`] = { $in: key_words[key] }
-                }
-                
-            }
-
-            if (filters.title) {
-                filters.title = new RegExp(".*" + filters.title + ".*")
-            }
-            
-            this.collections.posts.find(filters).limit(pagination.limit).skip(pagination.offset).toArray((erro, result) => {
-                if (erro) {
-                    return reject(erro)
-                }
-                resolve(result)
-            })
-        });
-    }
-
-    get_post_types() {
-        return new Promise((resolve, reject) => {
-            this.collections.post_types.find({}).project({ _id: 0 }).toArray((erro, result) => {
-                if (erro) {
-                    reject(erro)
-                    return
-                }
-                let parsed = []
-                for (let i of result) {
-                    parsed.push(i.type)
-                }
-                console.log(parsed)
-                resolve(parsed)
-            })
-        });
-    }
-
-    checkPostType(type) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                this.collections.post_types.find({ type: type }).toArray((erro, result) => {
+                this.collections.connections.find({ id: id }).toArray((erro, result) => {
                     if (erro) {
-                        return reject(erro)
+                        throw (erro)
                     }
 
                     if (result.length > 0) {
@@ -124,6 +32,7 @@ module.exports = class DAO {
                         resolve(false)
                     }
                 })
+
             }
             catch (erro) {
                 reject(erro)
@@ -131,21 +40,37 @@ module.exports = class DAO {
         })
     }
 
-    check_post(id) {
-        return new Promise((resolve, reject) => {
-            let { ObjectId } = this
-            this.collections.posts.find({ _id: ObjectId(id) }).project({ _id: 1 }).toArray((erro, result) => {
+    async update_connection(id, newConnection) {
+        try {
+            let updateLog = await this.collections.connections.updateOne({ id: id }, newConnection);
+            return updateLog;
+        }
+        catch (erro) {
+            throw (erro)
+        }
+    }
+
+    async get_connection(id) {
+        try {
+            let connection = await this.collections.connections.find({ id: id }).toArray((erro, result) => {
                 if (erro) {
-                    reject(erro)
-                    return
+                    throw (erro)
                 }
+
                 if (result.length > 0) {
-                    resolve(true)
+                    return result[0]
                 }
                 else {
-                    resolve(false)
+                    throw ("That connection does not exist!")
                 }
             })
-        });
+
+            return connection;
+        }
+        catch (erro) {
+            throw (erro)
+        }
     }
+
+    
 }

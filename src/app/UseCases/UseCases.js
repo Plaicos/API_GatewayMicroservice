@@ -15,9 +15,92 @@ module.exports = class UseCases {
             let template = await SCI.View.get_template(selector, params, credential)
             return template.html;
         }
-        catch(erro) {
+        catch (erro) {
             throw (erro)
         }
     }
-    
+
+    async get_public_static_file(path) {
+        let { SCI } = this
+
+        try {
+            let file = await SCI.View.get_public_static_file(path)
+            // file is a binary buffer array
+            if (file.type === "Buffer") {
+                file = Buffer.from(file.data)
+            }
+            return file.toString("binary");
+        }
+        catch (erro) {
+            console.log("Error getting the file from the view service", erro)
+            throw (erro)
+        }
+    }
+
+    async authenticate_token(token) {
+        let { SCI } = this
+
+        if (!token || typeof token !== "string") {
+            throw ("The Token must be a valid string")
+        }
+
+        try {
+            let credential = await SCI.Authenticator.authenticate(token)
+            return credential;
+        }
+        catch (erro) {
+            throw (erro)
+        }
+    }
+
+    async generate_token(user) {
+        let { SCI } = this
+
+        if (!user || typeof user !== "string") {
+            throw ("The user must be a valid string")
+        }
+
+        try {
+            let token = await SCI.Authenticator.generateToken(user)
+            return token;
+        }
+        catch (erro) {
+            throw (erro)
+        }
+    }
+
+    async store_connection(user, id) {
+        let { entities, DAO, SCI } = this
+
+        try {
+            let Connention = new entities.Connection({ data: { user, id }, SCI, DAO })
+            let ConnectionExists = await DAO.check_connection(id)
+            console.log({ ConnectionExists })
+            if (ConnectionExists) {
+                return "Connection already exists";
+            }
+            else {
+                Connention = await Connention.build()
+                await Connention.register()
+            }
+
+            return
+        }
+        catch (erro) {
+            throw (erro)
+        }
+    }
+
+    async check_if_user_has_conenction(user, credential) {
+        let { entities, DAO, SCI } = this
+        let user_has_connection = false
+
+        try {
+            user_has_connection = await DAO
+            return user_has_connection;
+        }
+        catch (erro) {
+            throw (erro)
+        }
+    }
 }

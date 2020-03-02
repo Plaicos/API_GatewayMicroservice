@@ -3,7 +3,17 @@ package ViewPackage;
 
 service View {
     rpc get_template (getTemplate) returns (Template);
+    rpc get_public_static_file (getPublicStatic) returns (stream buffer);
 } 
+
+message buffer {
+    string type = 1;
+    repeated string data = 2;
+}
+
+message getPublicStatic {
+    string path = 1 ;
+}
 
 message getTemplate {
     selector selector = 1;

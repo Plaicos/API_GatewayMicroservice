@@ -22,9 +22,32 @@ module.exports = class ViewInterface {
         })
     }
 
-    get_static_file(){
-        return new Promise((resolve, reject)=>{
-            
+    get_public_static_file(path) {
+        return new Promise((resolve, reject) => {
+            let { Interface } = this
+            let strem = require("stream")
+            let fs = require ("fs")
+            let file = fs.createWriteStream("./FOOOANDBAR")
+            let file_arr = []
+
+            try {
+                let call = Interface.View.get_public_static_file({ path })
+
+                call.on("data", (chunk)=>{
+                    console.log("got chunk", chunk)
+                    file_arr = file_arr.concat(chunk.data)
+                    console.log("Wrote chunk")
+                })
+
+                call.on("end", ()=>{
+                    file.
+                    console.log("Resolving Promise with file:", file)
+                    Promise.resolve(file)
+                })
+            }
+            catch (erro) {
+                reject(erro)
+            }
         })
     }
 }

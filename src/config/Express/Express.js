@@ -11,7 +11,7 @@ function startServer(dependencies) {
         app.use(routes(newrouter, dependencies))
 
         var server = app.listen(server_config.port, server_config.hostname, server_config.callback)
-        return
+        return server
     }
     catch (erro) {
         throw ("Error initializing Express Server, aborting...", erro)

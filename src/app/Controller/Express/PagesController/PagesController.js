@@ -1,7 +1,7 @@
 module.exports = class PagesController {
     constructor(dependencies) {
         this.dependencies = dependencies
-        this.UseCases = new (require("../../UseCases/UseCases"))(dependencies)
+        this.UseCases = new (require("../../../UseCases/UseCases"))(dependencies)
     }
 
     view_static_public_page(page_name){
