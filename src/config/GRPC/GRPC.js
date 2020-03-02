@@ -1,4 +1,4 @@
-function initialize(dependencies) {
+function init(dependencies) {
     let serverBuilder = require("./Server/ServerBuilder").build
     let serviceFactory = new (require("./Server/Service/ServiceFactory"))
     let apiBuilder = require("./Server/API/API")
@@ -8,7 +8,7 @@ function initialize(dependencies) {
     let server = serverBuilder(service, api)
 
     server.start()
-    console.log("GRPC MARKETPLACE SERVER RUNNING")
+    console.log("GRPC API GATEWAY SERVER RUNNING")
     return
 }
 
@@ -24,6 +24,6 @@ function exportClient() {
 }
 
 module.exports = {
-    initialize,
+    init,
     exportClient
 }

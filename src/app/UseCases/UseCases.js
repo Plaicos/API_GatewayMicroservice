@@ -1,8 +1,9 @@
 module.exports = class UseCases {
     constructor(dependencies) {
         this.dependencies = dependencies
-        let { DAO, SCI } = dependencies
+        let { DAO, SCI, WSI } = dependencies
 
+        this.WSI = WSI
         this.SCI = SCI
         this.DAO = DAO
         this.entities = require("../Entities/entities")
@@ -96,8 +97,37 @@ module.exports = class UseCases {
         let user_has_connection = false
 
         try {
-            user_has_connection = await DAO
+            user_has_connection = await DAO.check_if_user_has_connection(user)
             return user_has_connection;
+        }
+        catch (erro) {
+            throw (erro)
+        }
+    }
+
+    async get_user_connections(user) {
+        if (!user || typeof user !== "string") {
+            throw ("User must be a valid string")
+        }
+
+        let { DAO } = this
+
+        try {
+            let connections = await DAO.get_user_connections(user)
+            return connections;
+        }
+        catch (erro) {
+            throw (erro)
+        }
+    }
+
+    async notify_user(connection, notification) {
+        let { WSI } = this
+        console.log({ connection, notification })
+
+        try {
+            await WSI.notify(connection, notification)
+            return
         }
         catch (erro) {
             throw (erro)

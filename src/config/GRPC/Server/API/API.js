@@ -6,20 +6,16 @@ module.exports = class API {
         }
 
         this.dependencies = dependencies
-        this.Controller = require("../../../../../src/app/Controller/Controller.js")
+        this.NotifierController = require("../../../../../src/app/Controller/GRPC/Notifier/NotifierController")
     }
 
     build() {
-        let { dependencies, Controller } = this
-        Controller = new Controller(dependencies)
+        let { dependencies, NotifierController } = this
+        NotifierController = new NotifierController(dependencies)
 
         let api = {
-            post: Controller.post(),
-            search_posts: Controller.search_posts(),
-            edit_post: Controller.edit_post(),
-            delete_post: Controller.delete_post(),
-            get_post: Controller.get_post(),
-            check_post: Controller.check_post()
+            //Notifier
+            notify_user: NotifierController.notify_user()
         }
         return Object.freeze(api)
     }

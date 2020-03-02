@@ -23,11 +23,12 @@ module.exports = class WebSocketsController {
         }
     }
 
-    handle_disconnection() {
+    handle_disconnection(socket) {
         var self = this
         var socket_routes = require("../../../config/SocketIO/routes/Socket/socket_routes")
-        return async function (socket) {
+        return async function (reason) {
             try {
+                console.log("socket disconnected", socket.id)
                 return
             }
             catch (erro) {
@@ -81,6 +82,26 @@ module.exports = class WebSocketsController {
             }
             catch (erro) {
                 self.handle_error(erro, socket)
+            }
+        }
+    }
+
+    handle_reconnect(socket) {
+        var self = this
+        var socket_routes = require("../../../config/SocketIO/routes/Socket/socket_routes")
+        return async function (attempts) {
+            if (!socket) {
+                throw ("Empity socket, cant reconnect! Please try again")
+            }
+
+            try {
+                // socket.emit("alert", "Connection established")
+                // socket_routes(socket, self.dependencies)
+                console.log("RECONNECTED SOCKET: ", socket)
+                return
+            }
+            catch (erro) {
+                throw (erro)
             }
         }
     }

@@ -3,4 +3,5 @@ module.exports = (socket, dependencies)=> {
 
     socket.on("log in by token", Controller.log_in_byToken(socket))
     socket.on("disconnect", Controller.handle_disconnection(socket))
+    socket.on("reconnect", Controller.handle_reconnect(socket))
 }

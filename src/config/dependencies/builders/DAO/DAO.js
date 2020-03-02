@@ -72,5 +72,66 @@ module.exports = class DAO {
         }
     }
 
-    
+    check_if_user_has_connection(user) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                this.collections.connections.find({ user: user }).project({ _id: -1, user: -1 }).toArray((erro, result) => {
+                    if (erro) {
+                        return reject(erro)
+                    }
+
+                    if (result.length > 0) {
+                        resolve(true)
+                    }
+                    else {
+                        resolve(false)
+                    }
+                })
+            }
+            catch (erro) {
+                reject(erro)
+            }
+        })
+    }
+
+    get_user_connections(user) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                this.collections.connections.find({ user: user }).project({ _id: 0, id: 1 }).toArray((erro, result) => {
+                    if (erro) {
+                        return reject(erro)
+                    }
+
+                    if (result.length > 0) {
+                        let parsed = []
+                        for (let i of result) {
+                            parsed.push(i.id)
+                        }
+                        resolve(parsed)
+                    }
+                    else {
+                        reject("That user has no connections stored")
+                    }
+                })
+            }
+            catch (erro) {
+                reject(erro)
+            }
+        })
+    }
+
+    delete_connection(id) {
+        return new Promise(async (resolve, reject) => {
+            let { collections } = this
+
+            try {
+                let deletionLog = await collections.connections.deleteOne({ id: id })
+                resolve(deletionLog)
+            }
+            catch (erro) {
+                reject(erro)
+            }
+        })
+    }
+
 }

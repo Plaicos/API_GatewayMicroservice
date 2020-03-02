@@ -1,13 +1,27 @@
 syntax = "proto3";
-package MarketplacePackage;
+package GatewayPackage;
 
-service Marketplace {
-    rpc post (postRequest) returns (statusResponse) {};
-    rpc search_posts (postSearch) returns (postSearchResults);
-    rpc edit_post (postEdit) returns (statusResponse);
-    rpc delete_post (postDelete) returns (statusResponse);
-    rpc get_post(postGet) returns (post);
+service Gateway {
+    rpc check_if_user_has_connection (userCheck) returns (statusResponse);
+    rpc notify_user (userNotify) returns (statusResponse);
 } 
+
+message userNotify {
+    string user = 1;
+    notification notification = 2;
+    credential credential = 3;
+}
+
+message notification {
+    string type = 1;
+    string notifier = 2;
+    string target = 3;
+    string data = 4;
+}
+
+message userCheck {
+    string user = 1;
+}
 
 message postDelete {
     string id = 1;
