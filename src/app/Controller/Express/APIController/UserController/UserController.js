@@ -4,7 +4,6 @@ module.exports = class UserController {
         let { SCI } = dependencies
         this.SCI = SCI
         this.UseCases = new (require("../../../../UseCases/UseCases"))(dependencies)
-        this.Session = require("cookie-session")
     }
 
     handle_error(erro, resp) {

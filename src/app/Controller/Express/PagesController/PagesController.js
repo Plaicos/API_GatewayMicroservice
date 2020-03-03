@@ -34,10 +34,21 @@ module.exports = class PagesController {
 
     handle404(){
         return async function(req, resp){
-            console.log("404")
-            resp.status(404)
-            resp.json({message: "Foo and Bar"})
-            resp.end()
+            let pageSelector = {
+                lib: "public",
+                subject: "page",
+                name: "404"
+            }
+
+            try {
+                let page = await self.UseCases.get_view(pageSelector, null, null)
+                resp.status(404)
+                resp.send(page)
+                resp.end()
+            }
+            catch (erro){
+                self.handle_error(erro, resp)
+            }
         }
     }
 }
