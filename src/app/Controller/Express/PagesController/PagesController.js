@@ -4,9 +4,9 @@ module.exports = class PagesController {
         this.UseCases = new (require("../../../UseCases/UseCases"))(dependencies)
     }
 
-    view_static_public_page(page_name){
+    view_static_public_page(page_name) {
         var self = this
-        return async function(req, resp){
+        return async function (req, resp) {
             let pageSelector = {
                 lib: "public",
                 subject: "page",
@@ -19,21 +19,22 @@ module.exports = class PagesController {
                 resp.send(page)
                 resp.end()
             }
-            catch (erro){
+            catch (erro) {
                 self.handle_error(erro, resp)
             }
         }
     }
 
-    handle_error(erro, resp){
+    handle_error(erro, resp) {
         console.log(erro)
         resp.status(500)
         resp.json(erro)
         resp.end()
     }
 
-    handle404(){
-        return async function(req, resp){
+    handle404() {
+        var self = this
+        return async function (req, resp) {
             let pageSelector = {
                 lib: "public",
                 subject: "page",
@@ -45,8 +46,9 @@ module.exports = class PagesController {
                 resp.status(404)
                 resp.send(page)
                 resp.end()
+                console.log("404")
             }
-            catch (erro){
+            catch (erro) {
                 self.handle_error(erro, resp)
             }
         }
