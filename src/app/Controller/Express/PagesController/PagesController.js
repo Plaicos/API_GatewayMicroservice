@@ -34,6 +34,7 @@ module.exports = class PagesController {
 
     handle404(){
         return async function(req, resp){
+            console.log("404")
             resp.status(404)
             resp.json({message: "Foo and Bar"})
             resp.end()
