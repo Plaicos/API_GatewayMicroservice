@@ -1,6 +1,8 @@
 module.exports = class NotifierController {
     constructor(dependencies) {
         this.dependencies = dependencies
+        let { SCI } = dependencies
+        this.SCI = SCI
         this.UseCases = new (require("../../../UseCases/UseCases"))(dependencies)
     }
 
@@ -10,20 +12,20 @@ module.exports = class NotifierController {
     }
 
     notify_user() {
-        var self = this
+        var { SCI, UseCases } = this
         return async function (call, callback) {
-            console.log("Called me")
+
             let { credential, user, notification } = call.request
             let user_conencted = false
 
             try {
-                user_conencted = await self.UseCases.check_if_user_has_conenction(user, credential)
+                user_conencted = await UseCases.check_if_user_has_conenction(user, credential)
 
                 if (user_conencted) {
-                    let user_conenctions = await self.UseCases.get_user_connections(user)
-                    console.log({ user_conenctions })
+                    let user_conenctions = await UseCases.get_user_connections(user)
+
                     for (let connection of user_conenctions) {
-                        await self.UseCases.notify_user(connection, notification)
+                        await UseCases.notify_user(connection, notification)
                     }
                     return callback(null, { status: "ok" })
                 }

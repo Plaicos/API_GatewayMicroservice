@@ -1,10 +1,12 @@
 module.exports = class WebSocketsController {
     constructor(dependencies) {
         this.dependencies = dependencies
+        let { SCI } = dependencies
+        this.SCI = SCI
         this.UseCases = new (require("../../UseCases/UseCases"))(dependencies)
     }
 
-    handle_connection(io) {
+    handle_connection() {
         var self = this
         var socket_routes = require("../../../config/SocketIO/routes/Socket/socket_routes")
         return async function (socket) {
@@ -24,12 +26,12 @@ module.exports = class WebSocketsController {
     }
 
     handle_disconnection(socket) {
-        var self = this
-        var socket_routes = require("../../../config/SocketIO/routes/Socket/socket_routes")
+        var { UseCases } = this
         return async function (reason) {
             try {
-                await self.UseCases.delete_connection(socket.id)
-                console.log("socket disconnected", socket.id)
+                if (socket.credential) {
+                    await UseCases.delete_connection(socket.id)
+                }
                 return
             }
             catch (erro) {
@@ -45,41 +47,19 @@ module.exports = class WebSocketsController {
         return
     }
 
-    log_in(socket) {
-        var self = this
-        return async function (login, password) {
-            if (!login || typeof login !== "string") {
-                return self.handle_error("Login must be a valid string")
-            }
-            if (!password || typeof password !== "string") {
-                return self.handle_error("Password must be a valid string")
-            }
-
-            try {
-                let credential = await self.UseCases.authenticate_token(token)
-                socket.emit("logged in", credential)
-                socket.credential = credential
-                return
-            }
-            catch (erro) {
-                self.handle_error(erro, socket)
-            }
-        }
-    }
-
     log_in_byToken(socket) {
-        var self = this
+        var { SCI, UseCases } = this
         return async function (token) {
             if (!token) {
-                return self.handle_error("Token must be a valid string", socket)
+                return self.handle_error("Token must be a valid string")
             }
 
             try {
-                let credential = await self.UseCases.authenticate_token(token)
+                let credential = await SCI.Authenticator.authenticate(token)
                 socket.credential = credential
                 socket.emit("logged in")
                 console.log({ credential })
-                await self.UseCases.store_connection(credential.user, socket.id)
+                await UseCases.store_connection(credential.user, socket.id)
                 return
             }
             catch (erro) {

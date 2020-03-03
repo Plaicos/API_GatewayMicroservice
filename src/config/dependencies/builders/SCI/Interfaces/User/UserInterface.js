@@ -36,4 +36,51 @@ module.exports = class UserInterface {
             })
         })
     }
+
+    log_in(login, password) {
+        return new Promise(async (resolve, reject) => {
+            let { Interface } = this
+
+            try {
+                Interface.User.log_in({ login, password }, (erro, session) => {
+                    if (erro) {
+                        return reject(erro)
+                    }
+
+                    resolve(session)
+                })
+            }
+            catch (erro) {
+                reject(erro)
+            }
+        })
+    }
+
+    sign_up(sign_up_data) {
+        return new Promise(async (resolve, reject) => {
+            let { Interface } = this
+
+            if (typeof sign_up_data !== "object") {
+                return reject("Invalid Sign Up Data")
+            }
+
+            try {
+                Interface.User.sing_up(sign_up_data, (erro, statusResponse) => {
+                    if (erro) {
+                        return reject(erro)
+                    }
+
+                    if (statusResponse === "ok") {
+                        resolve()
+                    }
+                    else {
+                        reject("Something went wrong in the sign up")
+                    }
+                })
+            }
+            catch (erro) {
+                reject(erro)
+            }
+        })
+    }
 }

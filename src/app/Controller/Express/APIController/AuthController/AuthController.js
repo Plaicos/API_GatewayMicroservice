@@ -1,12 +1,14 @@
 module.exports = class AuthenticationController {
     constructor(dependencies) {
         this.dependencies = dependencies
+        let { SCI } = dependencies
+        this.SCI = SCI
         this.UseCases = new (require("../../../../UseCases/UseCases"))(dependencies)
     }
 
-    handle_error(error, resp){
+    handle_error(error, resp) {
         resp.status(500)
-        if(error){
+        if (error) {
             resp.json(error)
             console.log(error)
         }
@@ -14,12 +16,12 @@ module.exports = class AuthenticationController {
     }
 
     generateToken() {
-        let self = this
+        var self = this
         return async function (req, resp) {
             let user = req.query.user
 
             try {
-                let token = await self.UseCases.generate_token(user)
+                let token = await self.SCI.Authenticator.generateToken(user)
                 resp.json(token)
                 resp.end()
             }

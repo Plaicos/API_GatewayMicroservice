@@ -1,11 +1,15 @@
 var express = require("express")
 var app = express()
 var newrouter = () => { return express.Router() }
+var middlewares = require("./middlewares/middlewares")
 var server_config = require("./config")
 var routes = require("./routes/routes")
 
 function startServer(dependencies) {
     try {
+        //middlewares
+        app.use(middlewares(newrouter, dependencies))
+        // temporary static files ** to move to view
         app.use("/public", express.static("./src/app/static/public"))
         //routes config
         app.use(routes(newrouter, dependencies))

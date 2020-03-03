@@ -6,6 +6,9 @@ service User {
     rpc check_user (userGet) returns (statusResponse);
     rpc get_user_warehouses (warehouseGet) returns (warehouses);
     rpc get_user_warehouse (warehouseGet) returns (warehouse);
+    rpc log_in (login_data) returns (session);
+    rpc sign_up (sign_up_data) returns (statusResponse);
+    rpc delete_user (userDelete) returns (statusResponse);
 }
 
 message warehouseGet {

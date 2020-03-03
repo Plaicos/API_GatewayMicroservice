@@ -1,8 +1,10 @@
 module.exports = (newrouter, dependencies) => {
-    let router = newrouter()
+    let rotuer = newrouter()
+    let parsersMiddlewares = require("./parsers")
+    let tokenMiddleware = require("./token")
 
-    router.use("/public", (req, resp, next) => {
-        
-        
-    })
+    rotuer.use(parsersMiddlewares(newrouter, dependencies))
+    rotuer.use(tokenMiddleware(newrouter, dependencies))
+
+    return rotuer;
 }

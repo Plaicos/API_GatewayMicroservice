@@ -51,25 +51,26 @@ module.exports = class DAO {
     }
 
     async get_connection(id) {
-        try {
-            let connection = await this.collections.connections.find({ id: id }).toArray((erro, result) => {
-                if (erro) {
-                    throw (erro)
-                }
+        return new Promise(async (resolve, reject) => {
+            try {
+                this.collections.connections.find({ id: id }).toArray((erro, result) => {
+                    if (erro) {
+                        throw (erro)
+                    }
 
-                if (result.length > 0) {
-                    return result[0]
-                }
-                else {
-                    throw ("That connection does not exist!")
-                }
-            })
+                    if (result.length > 0) {
+                        resolve(result[0])
+                    }
+                    else {
+                        reject("That connection does not exist!")
+                    }
+                })
+            }
+            catch (erro) {
+                reject(erro)
+            }
+        })
 
-            return connection;
-        }
-        catch (erro) {
-            throw (erro)
-        }
     }
 
     check_if_user_has_connection(user) {

@@ -134,11 +134,12 @@ module.exports = class UseCases {
     }
 
     async delete_connection(id) {
-        let { DAO, entities } = this
+        let { SCI, DAO, entities } = this
 
         try {
             let Connection = await new entities.Connection({ data: { id: id }, DAO, SCI }).load()
-            return await Connection.delete()
+            await Connection.delete()
+            return
         }
         catch (erro) {
             throw (erro)
