@@ -10,7 +10,7 @@ function startServer(dependencies) {
         //routes config
         app.use(routes(newrouter, dependencies))
 
-        var server = app.listen(server_config.port, server_config.hostname, server_config.callback)
+        var server = app.listen(server_config.port, server_config.hostname, server_config.callback(server_config.port))
         return server
     }
     catch (erro) {
