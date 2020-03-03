@@ -28,6 +28,7 @@ module.exports = class NotifierController {
                     return callback(null, { status: "ok" })
                 }
                 else {
+                    console.log("User has no connection")
                     throw ("User does that have any active connections")
                 }
             }
