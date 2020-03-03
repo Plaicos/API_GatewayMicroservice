@@ -5,13 +5,14 @@ module.exports = class NotifierController {
     }
 
     handle_error(error, callback) {
-        callback(Error(error))
         console.log(error)
+        callback(Error(error))
     }
 
     notify_user() {
         var self = this
         return async function (call, callback) {
+            console.log("Called me")
             let { credential, user, notification } = call.request
             let user_conencted = false
 
@@ -27,7 +28,7 @@ module.exports = class NotifierController {
                     return callback(null, { status: "ok" })
                 }
                 else {
-                    return callback("User does that have any active connections")
+                    return callback(Error("User does that have any active connections"))
                 }
             }
             catch (erro) {
