@@ -28,7 +28,7 @@ module.exports = class NotifierController {
                     return callback(null, { status: "ok" })
                 }
                 else {
-                    return callback(Error("User does that have any active connections"))
+                    throw ("User does that have any active connections")
                 }
             }
             catch (erro) {
