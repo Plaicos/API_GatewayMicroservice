@@ -4,6 +4,7 @@ module.exports = (newrouter, dependencies) => {
 
     router.use(/^\/$/, Controller.view_static_public_page("home"))
     router.use("/home", Controller.view_static_public_page("home"))
+    router.use("/sign-up", Controller.view_static_public_page("sign_up"))
 
     //router.use(Controller.handle404())
 
