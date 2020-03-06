@@ -4,3 +4,4 @@ import "User/User.proto";
 import "Authenticator/authenticator.proto";
 import "Inventory/Inventory.proto";
 import "View/View.proto";
+import "Marketplace/Marketplace.proto";

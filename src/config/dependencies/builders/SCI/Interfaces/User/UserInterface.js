@@ -5,7 +5,13 @@ module.exports = class UserInterface {
 
     get_user(login, credential) {
         return new Promise(async (resolve, reject) => {
-            this.Interface.User.get_user()
+            this.Interface.User.get_user({ login, credential }, (erro, data) => {
+                if (erro) {
+                    return reject(erro)
+                }
+
+                resolve(data)
+            })
         })
     }
 
@@ -65,7 +71,7 @@ module.exports = class UserInterface {
             }
 
             try {
-                Interface.User.sing_up(sign_up_data, (erro, statusResponse) => {
+                Interface.User.sign_up(sign_up_data, (erro, statusResponse) => {
                     if (erro) {
                         return reject(erro)
                     }

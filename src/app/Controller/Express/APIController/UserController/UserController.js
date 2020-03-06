@@ -16,7 +16,7 @@ module.exports = class UserController {
     sign_up() {
         var self = this
         return async function (req, resp) {
-            let { data } = req.body
+            let data = req.body
 
             try {
                 await self.SCI.User.sign_up(data)
@@ -52,7 +52,18 @@ module.exports = class UserController {
     get_user() {
         var self = this
         return async function (req, resp) {
+            let credential = req.credential
+            let user = req.query.user
 
+            try {
+                let user_data = await self.SCI.User.get_user(user, credential)
+                resp.status(200)
+                resp.json(user_data)
+                resp.end()
+            }
+            catch (erro) {
+                self.handle_error(erro, resp)
+            }
         }
     }
 

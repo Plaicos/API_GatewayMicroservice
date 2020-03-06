@@ -6,7 +6,8 @@ var client_config = {
         Authenticator: url.Authenticator,
         User: url.User,
         Inventory: url.Inventory,
-        View: url.View
+        View: url.View,
+        Marketplace: url.Marketplace
     }
 }
 

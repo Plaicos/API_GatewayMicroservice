@@ -12,7 +12,8 @@ module.exports = class Client {
             Authenticator: new Services.AuthPackage.Authenticator(config.port.Authenticator, Credentials.makeCredential(Credentials.Services.Authenticator)),
             User: new Services.UserPackage.User(config.port.User, Credentials.makeCredential()),
             Inventory: new Services.InventoryPackage.Inventory(config.port.Inventory, Credentials.makeCredential()),
-            View: new Services.ViewPackage.View(config.port.View, Credentials.makeCredential())
+            View: new Services.ViewPackage.View(config.port.View, Credentials.makeCredential()),
+            Marketplace: new Services.MarketplacePackage.Marketplace(config.port.Marketplace, Credentials.makeCredential())
         }
         return Client
     }

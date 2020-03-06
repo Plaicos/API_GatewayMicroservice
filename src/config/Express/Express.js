@@ -7,7 +7,6 @@ var routes = require("./routes/routes")
 
 function startServer(dependencies) {
     try {
-        //middlewares
         app.use(middlewares(newrouter, dependencies))
         // temporary static files ** to move to view
         app.use("/public", express.static("./src/app/static/public"))

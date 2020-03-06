@@ -1,0 +1,123 @@
+syntax = "proto3";
+package MarketplacePackage;
+
+service Marketplace {
+    rpc post (postRequest) returns (statusResponse) {};
+    rpc search_posts (postSearch) returns (postSearchResults);
+    rpc edit_post (postEdit) returns (statusResponse);
+    rpc delete_post (postDelete) returns (statusResponse);
+    rpc get_post(postGet) returns (post);
+} 
+
+message postDelete {
+    string id = 1;
+    credential credential = 2;
+}
+
+message postEdit {
+    string id = 1;
+    post changes = 2;
+    credential credential = 3;
+}
+
+message postSearchResults {
+    repeated post results = 1;
+}
+
+message postRequest {
+    post post = 1;
+    credential credential = 2;
+}
+
+message product {
+    string _id = 1;
+    string title = 2;
+    string type = 3;
+    string user = 4;
+    string made_in = 5;
+    int32 shelf_life = 6;
+    int32 lead_time = 7;
+    string manufacturer = 8;
+    string origin = 9;
+    repeated string inci_name = 10;
+    repeated string application = 11;
+    repeated string functions = 12;
+
+}
+
+message filters {
+    string title = 1;
+    repeated string type = 2;
+    string user = 3;
+    product product = 4;
+    location location = 5;
+    bool limited = 6;
+    postExpires expires = 7;
+    int32 limit = 8;
+    int32 offset = 9;
+    key_words key_words = 10;
+}
+
+message key_words {
+    repeated string inci_name = 1;
+}
+
+message location {
+    string country = 1;
+    string state = 2;
+    string city = 3;
+}
+
+message postSearch {
+    filters filters = 1;
+    credential credential = 2;
+}
+
+message post {
+    string title = 1;
+    repeated string type = 2;
+    string user = 3;
+    repeated string product = 4;
+    string description = 5;
+    bool limited = 6;
+    postExpires expires = 7;
+    string warehouse = 8;
+    string _id = 9;
+    location location = 10;
+}
+
+message postGet {
+    string id = 1;
+    credential credential = 2;
+}
+
+message null {}
+
+message postExpires {
+    int32 expires_in = 1;
+}
+
+message statusResponse {
+    string status = 1;
+}
+
+message postTypes {
+    repeated string types = 1;
+}
+
+message scope {
+    bool read = 1;
+    bool write = 2;
+    third_party_scope third_party = 3;
+}
+
+message third_party_scope {
+    bool read = 1;
+    bool write = 2;
+}
+
+message credential {
+    string user = 1;
+    int32 level = 2;
+    scope scope = 3;
+}

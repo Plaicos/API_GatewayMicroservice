@@ -1,27 +1,6 @@
 //onload function
 window.onload = () => {
-    //storage
 
-    //set links to microservices and main server
-    let main_server_link = $("#main-server").val()
-    let view_server_link = $("#view-server").val()
-
-    //store in session memory
-    sessionStorage.setItem("main_server_link", main_server_link)
-    sessionStorage.setItem("view_server_link", view_server_link)
-
-    //whenClicked attribute
-    var anchors = document.getElementsByTagName('*');
-    for (var i = 0; i < anchors.length; i++) {
-        var anchor = anchors[i];
-        anchor.onclick = function () {
-            code = this.getAttribute('whenClicked');
-            eval(code);
-        }
-    }
-
-    //html injection
-    $("#loading-animation").append(loading_animation.gears)
 }
 
 function show_loading() {
@@ -34,27 +13,12 @@ function hide_loading() {
     $("#email-form").fadeIn()
 }
 
-function base64encode(string_to_encode) {
-    let encoded_string = btoa(string_to_encode)
-    return encoded_string
-}
-
-function base64decode(string_to_decode) {
-    let decoded_string = atob(string_to_decode)
-    return decoded_string
-}
-
 //login user
 async function login() {
-    show_loading()
-    //links
-    var main_server_link = sessionStorage.getItem("main_server_link")
 
-    //get form data
     let login = $("#login").val()
     let password = $("#password").val()
-    //builds body
-    let data = {
+    let body = {
         login: login,
         password: password
     }
@@ -62,44 +26,16 @@ async function login() {
     try {
         let response = await axios.request({
             method: "POST",
-            url: `${main_server_link}/login`,
-            data: data
-        }).catch((axios_error_response) => {
-            if (axios_error_response.response) {
-                hide_loading()
-                if (axios_error_response.response.data && typeof axios_error_response.response.data == "string") {
-                    print_error(axios_error_response.response.data)
-                } else {
-                    print_error(axios_error_response.response.statusText)
-                }
-            }
-            else {
-                hide_loading()
-                print_error("ALGO DEU ERRADO")
-            }
+            url: "/api/user/log-in",
+            data: body
         })
+        console.log({ response }, response.data)
 
-        hide_loading()
-        let json = response.data
-        let cookie = json.cookie.cookie
-
-        document.cookie = `Plaicos Session Cookie=${cookie}`
-
-        let params = {
-            route: "/user/dashboard",
-            data: {
-                login: json.logged_user
-            }
-        }
-     
-        params = window.base64encode(JSON.stringify(params))
-        
-        window.location.replace(`https://rpjcoding.sa.ngrok.io?params=${params}`)
+        window.location.replace("/dashboard/")
 
     } catch (erro) {
         console.log("axios error", erro)
     }
-
 
 }
 

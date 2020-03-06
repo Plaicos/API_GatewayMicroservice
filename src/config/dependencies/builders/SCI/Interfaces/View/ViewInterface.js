@@ -10,7 +10,7 @@ module.exports = class ViewInterface {
             try {
                 Interface.View.get_template({ selector, params, credential }, (erro, template) => {
                     if (erro) {
-                        throw (Error(erro))
+                        reject(erro)
                     }
                     console.log("resolving api call to view service")
                     resolve(template);
@@ -26,22 +26,22 @@ module.exports = class ViewInterface {
         return new Promise((resolve, reject) => {
             let { Interface } = this
             let strem = require("stream")
-            let fs = require ("fs")
+            let fs = require("fs")
             let file = fs.createWriteStream("./FOOOANDBAR")
             let file_arr = []
 
             try {
                 let call = Interface.View.get_public_static_file({ path })
 
-                call.on("data", (chunk)=>{
+                call.on("data", (chunk) => {
                     console.log("got chunk", chunk)
                     file_arr = file_arr.concat(chunk.data)
                     console.log("Wrote chunk")
                 })
 
-                call.on("end", ()=>{
+                call.on("end", () => {
                     file.
-                    console.log("Resolving Promise with file:", file)
+                        console.log("Resolving Promise with file:", file)
                     Promise.resolve(file)
                 })
             }

@@ -25,6 +25,39 @@ module.exports = class PagesController {
         }
     }
 
+    view_private_page(lib, name) {
+        var self = this
+        return async function (req, resp) {
+            let credential = req.credential
+            let pageSelector = {}
+
+            if (credential) {
+                pageSelector = {
+                    lib: lib,
+                    subject: "page",
+                    name: name
+                }
+            }
+            else {
+                pageSelector = {
+                    lib: "public",
+                    subject: "page",
+                    name: "login"
+                }
+            }
+
+            try {
+                let page = await self.UseCases.get_view(pageSelector, null, credential)
+                resp.status(200)
+                resp.send(page)
+                resp.end()
+            }
+            catch (erro) {
+                self.handle_error(erro, resp)
+            }
+        }
+    }
+
     handle_error(erro, resp) {
         console.log(erro)
         resp.status(500)
