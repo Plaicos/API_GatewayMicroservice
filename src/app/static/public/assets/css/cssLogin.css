@@ -15,8 +15,7 @@
 .login-form-1{
     padding-bottom: 30PX;
     background:#EBEBEB;
-    border-bottom-right-radius: 30px;
-    border-bottom-left-radius: 30px;
+    border-radius: 30px;
 }
 
 

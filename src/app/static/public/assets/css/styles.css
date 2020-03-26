@@ -10208,3 +10208,64 @@ body {
 .sb-sidenav-light .sb-sidenav-footer {
   background-color: #e9ecef;
 }
+
+.msg{
+  background-color: aliceblue;
+  height: 600px;
+}
+
+.msgT{
+ color: black;
+
+}
+
+.msgm{
+  height: 40px;
+  width: 270px;
+}
+.msgm:hover{
+  background-color: #CBE3E1;
+  color: white;
+}
+.caixaTxt{
+  background-color: #F7F7F7;
+  height: 600px;
+}
+
+.resposta{
+  background-color: white;
+  height: 100px;
+  width: 350px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 20px;
+  
+}
+
+.pergunta{
+  background-color: #CBE3E1;
+  height: 100px;
+  width: 350px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-left: 55%;
+  border-radius: 20px;
+  
+}
+
+.card-footer{
+  border-radius: 0 0 15px 15px !important;
+      border-top: 0 !important;
+  }
+
+  .type_msg{
+    border:0 !important;
+    color:black !important;
+    height: 60px !important;
+    overflow-y: auto;
+}
+    .type_msg:focus{
+     box-shadow:none !important;
+   outline:0px !important;
+}
