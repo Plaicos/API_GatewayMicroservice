@@ -4,49 +4,49 @@ window.onload = () => {
 }
 
 function show_loading() {
-    $("#email-form").hide()
-    $("#loading-animation").show()
+  $("#email-form").hide()
+  $("#loading-animation").show()
 }
 
 function hide_loading() {
-    $("#loading-animation").hide()
-    $("#email-form").fadeIn()
+  $("#loading-animation").hide()
+  $("#email-form").fadeIn()
 }
 
 //login user
 async function login() {
 
-    let login = $("#login").val()
-    let password = $("#password").val()
-    let body = {
-        login: login,
-        password: password
-    }
+  let login = $("#login").val()
+  let password = $("#password").val()
+  let body = {
+    login: login,
+    password: password
+  }
 
-    try {
-        let response = await axios.request({
-            method: "POST",
-            url: "/api/user/log-in",
-            data: body
-        })
-        console.log({ response }, response.data)
+  try {
+    let response = await axios.request({
+      method: "POST",
+      url: "/api/user/log-in",
+      data: body
+    })
+    console.log({ response }, response.data)
 
-        window.location.replace("/dashboard/")
+    window.location.replace("/dashboard/")
 
-    } catch (erro) {
-        console.log("axios error", erro)
-    }
+  } catch (erro) {
+    console.log("axios error", erro)
+  }
 
 }
 
 function print_error(error) {
-    $("#error-box p").text(error)
-    $("#error-box").show().delay(5000).fadeOut()
+  $("#error-box p").text(error)
+  $("#error-box").show().delay(5000).fadeOut()
 }
 
 //animations **gambiara
 let loading_animation = {
-    gears: `<div class="w-embed">
+  gears: `<div class="w-embed">
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin:auto;background:#fff;display:block;" width="200px" height="200px" viewbox="0 0 100 100" preserveaspectratio="xMidYMid">
       <g transform="translate(50 50)">
         <g transform="translate(-19 -19) scale(0.6)">
